@@ -1,1 +1,4 @@
 rootProject.name = 'distributed-system-practice'
+include 'order-service'
+include 'inventory-service'
+include 'payment-service'

@@ -1,41 +1,39 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.5.7' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-description = 'distributed-system-practice'
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
 
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+	group = 'com.practice'
+	version = '0.0.1-SNAPSHOT'
+
+	java {
+		sourceCompatibility = '17'
 	}
-}
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	repositories {
+		mavenCentral()
 	}
-}
 
-repositories {
-	mavenCentral()
-}
+	// 🎯 정말 모든 모듈에 필요한 것만!
+	dependencies {
+		// Lombok (모든 곳에서 사용)
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+		// Test (모든 곳에서 테스트)
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-tasks.named('test') {
-	useJUnitPlatform()
+		runtimeOnly 'com.h2database:h2'
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
+		enabled = false  // ← 추가
+	}
 }

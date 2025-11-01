@@ -1,0 +1,8 @@
+dependencies {
+    // Inventory Service에 필요한 것
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.springframework.kafka:spring-kafka'
+    // OpenFeign 없음! (필요 없으니까)
+}
